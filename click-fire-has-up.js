@@ -2,41 +2,21 @@
  * @Author       : Archer<ahh666@qq.com>
  * @Date         : 2022-02-09 11:03:27
  * @LastEditors  : Archer<ahh666@qq.com>
- * @LastEditTime : 2022-02-18 14:29:15
+ * @LastEditTime : 2022-02-21 10:28:49
  * @FilePath     : \fireworks\click-fire-has-up.js
  * @Description  : 在点击位置播放烟花，一端固定，带上升效果
  */
 
-const random = (a, b) => Math.random() * (b - a) + a
+var random = (a, b) => Math.random() * (b - a) + a
 
-const getRandomColor = (alpha = 1) => {
+var getRandomColor = (alpha = 1) => {
   const r = Math.round(random(120, 225))
   const g = Math.round(random(120, 225))
   const b = Math.round(random(120, 225))
   return `rgba(${r},${g},${b},${alpha})`
 }
 
-const canvas = document.querySelector('canvas')
-canvas.width = 0
-canvas.height = 0
-
-let fireworks = null
-
-const clickSite = e => {
-  const opts = {
-    x: e.clientX,
-    y: e.clientY,
-    minSum: 20,
-    maxSum: 40,
-  }
-  fireworks && fireworks.cancel()
-  fireworks = new Fireworks(canvas, opts)
-  fireworks.fire()
-}
-
-window.addEventListener('click', clickSite)
-
-class Fireworks {
+class FireworksOfClick {
   constructor(canvas, options = {}) {
     this.ctx = canvas.getContext('2d')
     this.minSum = options.minSum || 10
@@ -70,7 +50,7 @@ class Fireworks {
       targetX: x,
       targetY: y,
     }
-    return new TrackMover(this.ctx, options)
+    return new TrackMoverOfClick(this.ctx, options)
   }
 
   fireworkItemController(_x, _y) {
@@ -96,7 +76,7 @@ class Fireworks {
         color,
         size: this.size,
       }
-      const fireworkItem = new FireworkItem(this.ctx, options)
+      const fireworkItem = new FireworkItemOfClick(this.ctx, options)
 
       this.fireworkGroup.push(fireworkItem)
     }
@@ -144,7 +124,7 @@ class Fireworks {
 }
 
 // 粒子
-class FireworkItem {
+class FireworkItemOfClick {
   constructor(ctx, options = {}) {
     this.ctx = ctx
     this.x = options.x
@@ -187,7 +167,7 @@ class FireworkItem {
 }
 
 // 上升轨迹
-class TrackMover {
+class TrackMoverOfClick {
   constructor(ctx, options = {}) {
     // 上升的初始位置
     this.x = options.x
@@ -217,3 +197,23 @@ class TrackMover {
     }
   }
 }
+
+// const canvas = document.querySelector('canvas')
+// canvas.width = 0
+// canvas.height = 0
+
+// let fireworks = null
+
+// const clickSite = e => {
+//   const opts = {
+//     x: e.clientX,
+//     y: e.clientY,
+//     minSum: 20,
+//     maxSum: 40,
+//   }
+//   fireworks && fireworks.cancel()
+//   fireworks = new FireworksOfClick(canvas, opts)
+//   fireworks.fire()
+// }
+
+// window.addEventListener('click', clickSite)

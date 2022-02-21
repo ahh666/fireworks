@@ -2,25 +2,19 @@
  * @Author       : Archer<ahh666@qq.com>
  * @Date         : 2022-02-09 11:03:27
  * @LastEditors  : Archer<ahh666@qq.com>
- * @LastEditTime : 2022-02-18 18:22:29
+ * @LastEditTime : 2022-02-21 09:58:39
  * @FilePath     : \fireworks\auto-fire.js
  * @Description  : 自动播放烟花
  */
 
-const random = (a, b) => Math.random() * (b - a) + a
+var random = (a, b) => Math.random() * (b - a) + a
 
-const getRandomColor = (alpha = 1) => {
+var getRandomColor = (alpha = 1) => {
   const r = Math.round(random(120, 225))
   const g = Math.round(random(120, 225))
   const b = Math.round(random(120, 225))
   return `rgba(${r},${g},${b},${alpha})`
 }
-
-const canvas = document.querySelector('canvas')
-canvas.width = window.innerWidth
-canvas.height = window.innerHeight
-
-let fireworks = null
 
 class Fireworks {
   constructor(ctx, options = {}) {
@@ -234,4 +228,8 @@ class TrackMover {
   }
 }
 
-new AutoFire(canvas, 8)
+// const canvas = document.querySelector('canvas')
+// canvas.width = window.innerWidth
+// canvas.height = window.innerHeight
+
+// new AutoFire(canvas, 8)

@@ -2,36 +2,85 @@
  * @Author       : Archer<ahh666@qq.com>
  * @Date         : 2022-01-06 13:39:05
  * @LastEditors  : Archer<ahh666@qq.com>
- * @LastEditTime : 2022-02-18 18:01:14
+ * @LastEditTime : 2022-02-21 10:27:19
  * @FilePath     : \fireworks\index.html
  * @Description  : Description
 -->
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>fireworks</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: #000;
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>fireworks</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: #000;
+      }
+
+      canvas {
+        position: absolute;
+      }
+      .controller {
+        cursor: pointer;
+        color: aliceblue;
+        position: fixed;
+        top: 5px;
+        right: 15px;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <div class="controller" onclick="clickHandler(event)">
+      <p data-type="auto">自动播放</p>
+      <p data-type="click">点击绽放</p>
+    </div>
+  </body>
+  <!-- <script src="./click-chip.js"></script> -->
+  <!-- <script src="./click-fire-random.js"></script> -->
+  <!-- <script src="./click-fire-circle.js"></script> -->
+  <script src="./click-fire-has-up.js"></script>
+  <script src="./auto-fire.js"></script>
+  <script>
+    let aotuFire = null
+    let clickFire = null
+    const clickSite = e => {
+      const opts = {
+        x: e.clientX,
+        y: e.clientY,
+        minSum: 20,
+        maxSum: 40,
+      }
+      clickFire && clickFire.cancel()
+      clickFire = new FireworksOfClick(canvas, opts)
+      clickFire.fire()
     }
 
-    canvas {
-      position: absolute;
+    const canvas = document.querySelector('canvas')
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+    // 默认自动播放
+    aotuFire = new AutoFire(canvas, 8)
+
+    function clickHandler(e) {
+      const type = e.target.dataset.type
+
+      if (type === 'click') {
+        aotuFire?.cancel()
+        setTimeout(() => {
+          window.addEventListener('click', clickSite)
+        }, 0)
+        return
+      }
+      if (type === 'auto') {
+        aotuFire = new AutoFire(canvas, 8)
+        window.removeEventListener('click', clickSite)
+      }
     }
-  </style>
-</head>
-<body>
-  <canvas  id="canvas"></canvas>
-</body>
-<!-- <script src="./click-chip.js"></script> -->
-<!-- <script src="./click-fire-random.js"></script> -->
-<!-- <script src="./click-fire-circle.js"></script> -->
-<!-- <script src="./click-fire-has-up.js"></script> -->
-<script src="./auto-fire.js"></script>
+  </script>
 </html>
